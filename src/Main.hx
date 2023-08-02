@@ -14,6 +14,7 @@ class Main {
     var ctx:js.html.CanvasRenderingContext2D;
     var images:Map<String, js.html.Image> = new Map();
     var engine:ecs.Engine;
+    var session = new game.Session();
     var lastTime = 0.0;
 
     public var keys:Dynamic = {};
