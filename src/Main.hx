@@ -14,6 +14,7 @@ class Main {
     var ctx:js.html.CanvasRenderingContext2D;
     var images:Map<String, js.html.Image> = new Map();
     var engine:ecs.Engine;
+    var lastTime = 0.0;
 
     public var keys:Dynamic = {};
 
@@ -60,8 +61,10 @@ class Main {
     }
 
     function loop(time:Float) {
+        var deltaTime = (time - lastTime) / 1000;
+        lastTime = time;
         render();
-        engine.update(time);
+        engine.update(deltaTime);
         js.Browser.window.requestAnimationFrame(loop);
     }
 
