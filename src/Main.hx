@@ -14,10 +14,11 @@ class Main {
     var ctx:js.html.CanvasRenderingContext2D;
     var images:Map<String, js.html.Image> = new Map();
     var engine:ecs.Engine;
-    var session = new game.Session();
     var lastTime = 0.0;
-
     public var keys:Dynamic = {};
+    public var previousKeys:Dynamic = {};
+
+    public var session = new game.Session();
 
     function new() {
         instance = this;
@@ -39,7 +40,9 @@ class Main {
     function initGame() {
         engine = new ecs.Engine();
         engine.addSystem(new game.GameSystem(), 0);
-        engine.addSystem(new game.PuyoSystem(), 1);
+        engine.addSystem(new game.FallSystem(), 1);
+        engine.addSystem(new game.ControlSystem(), 1);
+        engine.addSystem(new game.PuyoSystem(), 6);
         engine.addSystem(new core.SpriteSystem(), 100);
     }
 
@@ -66,10 +69,20 @@ class Main {
         lastTime = time;
         render();
         engine.update(deltaTime);
+        previousKeys = js.lib.Object.assign({}, keys);
         js.Browser.window.requestAnimationFrame(loop);
     }
 
     public function draw(image, x, y) {
         ctx.drawImage(images[image], x, y);
+    }
+
+
+    public function isPressed(k:String) {
+        return untyped keys[k];
+    }
+
+    public function isJustPressed(k:String) {
+        return untyped !previousKeys[k] && untyped keys[k];
     }
 }
