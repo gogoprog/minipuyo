@@ -32,7 +32,11 @@ class FallSystem extends ecs.System {
             } else {
                 Main.instance.session.setGrid(puyo.col, puyo.row, e);
                 e.remove(Fall);
-                e.remove(Control);
+                var es = engine.getMatchingEntities(Control);
+
+                for(e in es) {
+                    e.remove(Control);
+                }
             }
         }
     }

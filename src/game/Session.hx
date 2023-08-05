@@ -3,6 +3,8 @@ package game;
 class Session {
     public var grid:Array<Array<ecs.Entity>>;
 
+    public var colors = ["red", "green", "blue"];
+
     public function new() {
         grid = [];
 

@@ -1,11 +1,12 @@
 package game;
 
 class Factory {
-    static public function createPuyo() {
+    static public function createPuyo(color) {
         var e = new ecs.Entity();
         e.add(new math.Transform());
-        e.add(new core.Sprite("blob"));
+        e.add(new core.Sprite("puyo_" + color));
         e.add(new Puyo());
+        e.get(Puyo).color = color;
         return e;
     }
 }

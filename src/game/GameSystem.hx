@@ -12,11 +12,15 @@ class GameSystem extends ecs.System {
         var es = engine.getMatchingEntities(Fall);
 
         if(es.length == 0) {
-            var e = Factory.createPuyo();
+            var r = Std.random(Main.instance.session.colors.length);
+            var color = Main.instance.session.colors[r];
+            var e = Factory.createPuyo(color);
             engine.addEntity(e);
             e.add(new Fall());
             e.add(new Control());
-            var e = Factory.createPuyo();
+            var r = Std.random(Main.instance.session.colors.length);
+            var color = Main.instance.session.colors[r];
+            var e = Factory.createPuyo(color);
             engine.addEntity(e);
             e.add(new Fall());
             e.add(new Control());

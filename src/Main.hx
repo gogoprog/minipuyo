@@ -48,7 +48,9 @@ class Main {
 
     function loadImages() {
         loadImage("background");
-        loadImage("blob");
+        loadImage("puyo_red");
+        loadImage("puyo_green");
+        loadImage("puyo_blue");
     }
 
     function loadImage(name) {
@@ -76,7 +78,6 @@ class Main {
     public function draw(image, x, y) {
         ctx.drawImage(images[image], x, y);
     }
-
 
     public function isPressed(k:String) {
         return untyped keys[k];
