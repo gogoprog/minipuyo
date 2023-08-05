@@ -6,7 +6,7 @@ class Session {
     public function new() {
         grid = [];
 
-        for(i in 0...13) {
+        for(i in 0...14) {
             grid[i] = [];
         }
     }

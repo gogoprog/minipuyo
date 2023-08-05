@@ -16,6 +16,11 @@ class GameSystem extends ecs.System {
             engine.addEntity(e);
             e.add(new Fall());
             e.add(new Control());
+            var e = Factory.createPuyo();
+            engine.addEntity(e);
+            e.add(new Fall());
+            e.add(new Control());
+            e.get(Puyo).row++;
         }
     }
 }
