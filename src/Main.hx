@@ -11,7 +11,7 @@ class Main {
     }
 
     var canvas:js.html.CanvasElement;
-    var ctx:js.html.CanvasRenderingContext2D;
+    public var ctx:js.html.CanvasRenderingContext2D;
     var images:Map<String, js.html.Image> = new Map();
     var engine:ecs.Engine;
     var lastTime = 0.0;
@@ -43,14 +43,11 @@ class Main {
         engine.addSystem(new game.FallSystem(), 1);
         engine.addSystem(new game.ControlSystem(), 1);
         engine.addSystem(new game.PuyoSystem(), 6);
-        engine.addSystem(new core.SpriteSystem(), 100);
+        // engine.addSystem(new core.SpriteSystem(), 100);
     }
 
     function loadImages() {
         loadImage("background");
-        loadImage("puyo_red");
-        loadImage("puyo_green");
-        loadImage("puyo_blue");
     }
 
     function loadImage(name) {
@@ -61,8 +58,6 @@ class Main {
 
     function render() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "red";
-        ctx.fillRect(0, 0, 12, 12);
         ctx.drawImage(images["background"], 0, 0);
     }
 

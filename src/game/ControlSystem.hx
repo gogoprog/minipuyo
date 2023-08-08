@@ -18,7 +18,7 @@ class ControlSystem extends ecs.System {
             for(e in es) {
                 var puyo = e.get(Puyo);
 
-                if(puyo.desiredCol == null || puyo.desiredRow == null || !Main.instance.session.isValid(puyo.desiredCol, puyo.desiredRow)) {
+                if(puyo.desiredCol == null || puyo.desiredRow == null || !Main.instance.session.isFree(puyo.desiredCol, puyo.desiredRow)) {
                     all_valid = false;
                     break;
                 }
@@ -60,16 +60,14 @@ class ControlSystem extends ecs.System {
             offset_row -=1;
         }
 
-        if(/*Main.instance.session.isValid(puyo.col + offset_col, puyo.row) &&*/ control.time >= 0.2) {
-            // puyo.col += offset_col;
+        if(control.time >= 0.2) {
             puyo.desiredCol = puyo.col + offset_col;
             control.time = 0.0;
         } else {
             puyo.desiredCol = puyo.col;
         }
 
-        if(/*Main.instance.session.isValid(puyo.col, puyo.row + offset_row) &&*/ control.time2 >= 0.2) {
-            // puyo.row += offset_row;
+        if(control.time2 >= 0.2) {
             puyo.desiredRow = puyo.row + offset_row;
             control.time2 = 0.0;
         } else {

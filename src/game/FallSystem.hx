@@ -27,7 +27,7 @@ class FallSystem extends ecs.System {
         var puyo = e.get(Puyo);
 
         if(falling) {
-            if(Main.instance.session.isValid(puyo.col, puyo.row-1)) {
+            if(Main.instance.session.isFree(puyo.col, puyo.row-1)) {
                 puyo.row--;
             } else {
                 Main.instance.session.setGrid(puyo.col, puyo.row, e);
