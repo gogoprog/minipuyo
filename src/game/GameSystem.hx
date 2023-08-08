@@ -25,6 +25,7 @@ class GameSystem extends ecs.System {
             e.add(new Fall());
             e.add(new Control());
             e.get(Puyo).row++;
+            e.get(Control).second = true;
         }
     }
 }

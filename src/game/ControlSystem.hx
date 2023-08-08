@@ -40,23 +40,24 @@ class ControlSystem extends ecs.System {
         var offset_col = 0;
         var offset_row = 0;
         control.time += dt;
+        var main = Main.instance;
 
-        if(Main.instance.isJustPressed('ArrowLeft')) {
+        if(main.isJustPressed('ArrowLeft') || main.isJustPressed('a')) {
             offset_col -=1;
             control.time = 1;
-        } else if(Main.instance.isJustPressed('ArrowRight')) {
+        } else if(main.isJustPressed('ArrowRight') || main.isJustPressed('d')) {
             offset_col +=1;
             control.time = 1;
-        } else if(Main.instance.isPressed('ArrowLeft')) {
+        } else if(main.isPressed('ArrowLeft') || main.isJustPressed('a')) {
             offset_col -=1;
-        } else if(Main.instance.isPressed('ArrowRight')) {
+        } else if(main.isPressed('ArrowRight') || main.isJustPressed('d')) {
             offset_col +=1;
         }
 
-        if(Main.instance.isJustPressed('ArrowDown')) {
+        if(main.isJustPressed('ArrowDown') || main.isJustPressed('w')) {
             offset_row -=1;
             control.time2 = 1;
-        } else if(Main.instance.isPressed('ArrowDown')) {
+        } else if(main.isPressed('ArrowDown') || main.isJustPressed('s')) {
             offset_row -=1;
         }
 
@@ -72,6 +73,29 @@ class ControlSystem extends ecs.System {
             control.time2 = 0.0;
         } else {
             puyo.desiredRow = puyo.row;
+        }
+
+        if(control.second) {
+            var es = engine.getMatchingEntities(Control);
+            var other:Puyo = null;
+
+            for(e2 in es) {
+                if(!e2.get(Control).second) {
+                    other = e2.get(Puyo);
+                }
+            }
+
+            if(main.isJustPressed('o')) {
+                if(other.col == puyo.col) {
+                    if(other.row == puyo.row + 1) {
+                        puyo.desiredCol = puyo.col - 1;
+                        puyo.desiredRow = other.row;
+                    } else {
+                        puyo.desiredCol = puyo.col + 1;
+                        puyo.desiredRow = other.row;
+                    }
+                }
+            }
         }
     }
 }
