@@ -85,14 +85,27 @@ class ControlSystem extends ecs.System {
                 }
             }
 
-            if(main.isJustPressed('o')) {
+            var o_pressed = main.isJustPressed('o');
+            var p_pressed = main.isJustPressed('p');
+
+            if(o_pressed || p_pressed) {
+                var dir = o_pressed ? 1 : -1;
+
                 if(other.col == puyo.col) {
+                    puyo.desiredRow = other.row;
+
                     if(other.row == puyo.row + 1) {
-                        puyo.desiredCol = puyo.col - 1;
-                        puyo.desiredRow = other.row;
+                        puyo.desiredCol = puyo.col - dir;
                     } else {
-                        puyo.desiredCol = puyo.col + 1;
-                        puyo.desiredRow = other.row;
+                        puyo.desiredCol = puyo.col + dir;
+                    }
+                } else {
+                    puyo.desiredCol= other.col;
+
+                    if(other.col == puyo.col + 1) {
+                        puyo.desiredRow= puyo.row + dir;
+                    } else {
+                        puyo.desiredRow= puyo.row - dir;
                     }
                 }
             }
