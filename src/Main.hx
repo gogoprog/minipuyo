@@ -40,9 +40,10 @@ class Main {
     function initGame() {
         engine = new ecs.Engine();
         engine.addSystem(new game.GameSystem(), 0);
-        engine.addSystem(new game.FallSystem(), 1);
-        engine.addSystem(new game.ControlSystem(), 1);
+        engine.addSystem(new game.FallSystem(), 3);
+        engine.addSystem(new game.ControlSystem(), 4);
         engine.addSystem(new game.PuyoSystem(), 6);
+        engine.addSystem(new game.CheckSystem(), 10);
         // engine.addSystem(new core.SpriteSystem(), 100);
     }
 

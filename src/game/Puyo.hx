@@ -13,4 +13,8 @@ class Puyo {
 
     public function new() {
     }
+
+    public function getPosition():math.Point {
+        return [col, row];
+    }
 }

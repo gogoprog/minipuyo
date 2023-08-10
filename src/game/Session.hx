@@ -2,6 +2,8 @@ package game;
 
 class Session {
     public var grid:Array<Array<ecs.Entity>>;
+    public var width = 6;
+    public var height = 12;
 
     public var colors = ["red", "green", "blue"];
 

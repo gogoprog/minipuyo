@@ -18,6 +18,21 @@ class FallSystem extends ecs.System {
         while(timeLeft <= 0) {
             timeLeft += 1.0;
             falling = true;
+            var es = engine.getMatchingEntities(Fall);
+
+            for(e in es) {
+                var puyo = e.get(Puyo);
+
+                if(!Main.instance.session.isFree(puyo.col, puyo.row-1)) {
+                    Main.instance.session.setGrid(puyo.col, puyo.row, e);
+                    e.remove(Fall);
+                    var es = engine.getMatchingEntities(Control);
+
+                    for(e in es) {
+                        e.remove(Control);
+                    }
+                }
+            }
         }
 
         super.update(dt);
