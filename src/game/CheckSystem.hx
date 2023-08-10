@@ -42,7 +42,29 @@ class CheckSystem extends ecs.System {
                 }
             }
 
-            trace(matches);
+            var did_match = false;
+
+            for(match in matches) {
+                var size = Lambda.count(match);
+
+                if(size >= 4) {
+                    did_match = true;
+
+                    for(e in match.keys()) {
+                        var puyo = e.get(Puyo);
+                        Main.instance.session.setGrid(puyo.col, puyo.row, null);
+                        engine.removeEntity(e);
+                    }
+                }
+            }
+
+            if(did_match) {
+                var es = engine.getMatchingEntities(Puyo);
+
+                for(e in es) {
+                    e.add(new Fall());
+                }
+            }
         }
     }
 
