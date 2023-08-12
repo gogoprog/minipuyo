@@ -62,6 +62,8 @@ class CheckSystem extends ecs.System {
                 var es = engine.getMatchingEntities(Puyo);
 
                 for(e in es) {
+                    var puyo = e.get(Puyo);
+                    Main.instance.session.setGrid(puyo.col, puyo.row, null);
                     e.add(new Fall());
                 }
             }
