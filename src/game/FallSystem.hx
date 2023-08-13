@@ -12,6 +12,12 @@ class FallSystem extends ecs.System {
     }
 
     override public function update(dt:Float) {
+        var es = engine.getMatchingEntities(Control);
+
+        if(es.length == 0) {
+            timeLeft -= 3 * dt;
+        }
+
         timeLeft -= dt;
         falling = false;
 
