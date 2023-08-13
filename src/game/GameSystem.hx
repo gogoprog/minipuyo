@@ -6,6 +6,16 @@ class GameSystem extends ecs.System {
     }
 
     override public function onResume() {
+        var e = Factory.createPuyoDisplay("red");
+        var p = e.get(math.Transform).position;
+        p.x = 27;
+        p.y = 7;
+        engine.addEntity(e);
+        var e = Factory.createPuyoDisplay("blue");
+        var p = e.get(math.Transform).position;
+        p.x = 27;
+        p.y = 11;
+        engine.addEntity(e);
     }
 
     override public function update(dt) {

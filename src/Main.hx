@@ -44,7 +44,7 @@ class Main {
         engine.addSystem(new game.ControlSystem(), 4);
         engine.addSystem(new game.PuyoSystem(), 6);
         engine.addSystem(new game.CheckSystem(), 10);
-        // engine.addSystem(new core.SpriteSystem(), 100);
+        engine.addSystem(new game.PuyoDisplaySystem(), 100);
     }
 
     function loadImages() {
@@ -81,5 +81,18 @@ class Main {
 
     public function isJustPressed(k:String) {
         return untyped !previousKeys[k] && untyped keys[k];
+    }
+
+    public function countEntities(team, type) {
+        var es = engine.getMatchingEntities(type);
+        var result = 0;
+
+        for(e in es) {
+            if(e.get(game.Puyo).team == team) {
+                result++;
+            }
+        }
+
+        return result;
     }
 }

@@ -1,17 +1,23 @@
 package game;
 
 class Session {
-    public var grid:Array<Array<ecs.Entity>>;
+    public var grids:Array<Array<Array<ecs.Entity>>>;
     public var width = 6;
     public var height = 12;
 
     public var colors = ["red", "green", "blue"];
 
     public function new() {
-        grid = [];
+        grids = [];
 
-        for(i in 0...14) {
-            grid[i] = [];
+        for(g in 0...2) {
+            var grid = [];
+
+            for(i in 0...14) {
+                grid[i] = [];
+            }
+
+            grids[g] = grid;
         }
     }
 
@@ -27,28 +33,28 @@ class Session {
         return true;
     }
 
-    public function isFree(col, row) {
+    public function isFree(team, col, row) {
         if(isValid(col, row)) {
-            return grid[row][col] == null;
+            return grids[team][row][col] == null;
         }
 
         return false;
     }
 
-    public function getEntity(col, row) {
+    public function getEntity(team, col, row) {
         if(isValid(col, row)) {
-            return grid[row][col];
+            return grids[team][row][col];
         }
 
         return null;
     }
 
-    public function setGrid(col, row, value) {
-        grid[row][col] = value;
+    public function setGrid(team, col, row, value) {
+        grids[team][row][col] = value;
     }
 
-    public function getColor(col, row) {
-        var e = getEntity(col, row);
+    public function getColor(team, col, row) {
+        var e = getEntity(team, col, row);
 
         if(e != null) {
             return e.get(Puyo).color;

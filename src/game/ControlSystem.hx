@@ -24,7 +24,7 @@ class ControlSystem extends ecs.System {
             for(e in es) {
                 var puyo = e.get(Puyo);
 
-                if(puyo.desiredCol == null || puyo.desiredRow == null || !Main.instance.session.isFree(puyo.desiredCol, puyo.desiredRow)) {
+                if(puyo.desiredCol == null || puyo.desiredRow == null || !Main.instance.session.isFree(puyo.team, puyo.desiredCol, puyo.desiredRow)) {
                     all_valid = false;
                     break;
                 }

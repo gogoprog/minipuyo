@@ -29,8 +29,8 @@ class FallSystem extends ecs.System {
             for(e in es) {
                 var puyo = e.get(Puyo);
 
-                if(!Main.instance.session.isFree(puyo.col, puyo.row-1)) {
-                    Main.instance.session.setGrid(puyo.col, puyo.row, e);
+                if(!Main.instance.session.isFree(puyo.team, puyo.col, puyo.row-1)) {
+                    Main.instance.session.setGrid(puyo.team, puyo.col, puyo.row, e);
                     e.remove(Fall);
                     var es = engine.getMatchingEntities(Control);
 
@@ -48,10 +48,10 @@ class FallSystem extends ecs.System {
         var puyo = e.get(Puyo);
 
         if(falling) {
-            if(Main.instance.session.isFree(puyo.col, puyo.row-1)) {
+            if(Main.instance.session.isFree(puyo.team, puyo.col, puyo.row-1)) {
                 puyo.row--;
             } else {
-                Main.instance.session.setGrid(puyo.col, puyo.row, e);
+                Main.instance.session.setGrid(puyo.team, puyo.col, puyo.row, e);
                 e.remove(Fall);
                 var es = engine.getMatchingEntities(Control);
 
