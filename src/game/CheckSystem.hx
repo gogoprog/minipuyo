@@ -64,8 +64,11 @@ class CheckSystem extends ecs.System {
 
                     for(e in es) {
                         var puyo = e.get(Puyo);
-                        Main.instance.session.setGrid(team, puyo.col, puyo.row, null);
-                        e.add(new Fall());
+
+                        if(puyo.team == team) {
+                            Main.instance.session.setGrid(team, puyo.col, puyo.row, null);
+                            e.add(new Fall());
+                        }
                     }
                 }
             }

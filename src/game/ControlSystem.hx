@@ -2,8 +2,8 @@ package game;
 
 class ControlSystem extends ecs.System {
 
-    private var moveRequested = false;
-    private var rotateRequested = false;
+    private var moveRequesteds = [false, false];
+    private var rotateRequesteds = [false, false];
 
     public function new() {
         super();
@@ -13,28 +13,35 @@ class ControlSystem extends ecs.System {
     }
 
     override public function update(dt) {
-        moveRequested = false;
-        rotateRequested = false;
+        moveRequesteds = [false, false];
+        rotateRequesteds = [false, false];
         super.update(dt);
-        var es = engine.getMatchingEntities(Control);
 
-        if(es.length == 2) {
-            var all_valid = true;
+        for(team in 0...2) {
+            if(Main.instance.countEntities(team, Control) == 2) {
+                var es = engine.getMatchingEntities(Control);
+                var all_valid = true;
 
-            for(e in es) {
-                var puyo = e.get(Puyo);
-
-                if(puyo.desiredCol == null || puyo.desiredRow == null || !Main.instance.session.isFree(puyo.team, puyo.desiredCol, puyo.desiredRow)) {
-                    all_valid = false;
-                    break;
-                }
-            }
-
-            if(all_valid) {
                 for(e in es) {
                     var puyo = e.get(Puyo);
-                    puyo.col = puyo.desiredCol;
-                    puyo.row = puyo.desiredRow;
+
+                    if(puyo.team == team) {
+                        if(puyo.desiredCol == null || puyo.desiredRow == null || !Main.instance.session.isFree(puyo.team, puyo.desiredCol, puyo.desiredRow)) {
+                            all_valid = false;
+                            break;
+                        }
+                    }
+                }
+
+                if(all_valid) {
+                    for(e in es) {
+                        var puyo = e.get(Puyo);
+
+                        if(puyo.team == team) {
+                            puyo.col = puyo.desiredCol;
+                            puyo.row = puyo.desiredRow;
+                        }
+                    }
                 }
             }
         }
@@ -47,17 +54,16 @@ class ControlSystem extends ecs.System {
         var offset_row = 0;
         control.time += dt;
         var main = Main.instance;
-
         puyo.desiredRow = puyo.row;
         puyo.desiredCol = puyo.col;
 
-        if(!moveRequested) {
+        if(!moveRequesteds[puyo.team]) {
             if(control.second) {
                 var es = engine.getMatchingEntities(Control);
                 var other:Puyo = null;
 
                 for(e2 in es) {
-                    if(!e2.get(Control).second) {
+                    if(!e2.get(Control).second && e2.get(Puyo).team == puyo.team) {
                         other = e2.get(Puyo);
                     }
                 }
@@ -86,13 +92,13 @@ class ControlSystem extends ecs.System {
                         }
                     }
 
-                    rotateRequested = true;
+                    rotateRequesteds[puyo.team] = true;
                     return;
                 }
             }
         }
 
-        if(!rotateRequested) {
+        if(!rotateRequesteds[puyo.team]) {
             if(main.isJustPressed('ArrowLeft') || main.isJustPressed('a')) {
                 offset_col -= 1;
                 control.time = 1;
@@ -114,13 +120,13 @@ class ControlSystem extends ecs.System {
 
             if(control.time >= 0.2) {
                 puyo.desiredCol = puyo.col + offset_col;
-                moveRequested = true;
+                moveRequesteds[puyo.team] = true;
                 control.time = 0.0;
             }
 
             if(control.time2 >= 0.2) {
                 puyo.desiredRow = puyo.row + offset_row;
-                moveRequested = true;
+                moveRequesteds[puyo.team] = true;
                 control.time2 = 0.0;
             }
         }

@@ -12,5 +12,9 @@ class PuyoSystem extends ecs.System {
         var pos = e.get(math.Transform).position;
         pos.x = 2 + 4*puyo.col;
         pos.y = 64 - 11 - 4- 4*puyo.row;
+
+        if(puyo.team == 1) {
+            pos.x += 32 + 4;
+        }
     }
 }
