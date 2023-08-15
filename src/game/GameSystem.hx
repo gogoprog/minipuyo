@@ -53,10 +53,12 @@ class GameSystem extends ecs.System {
     }
 
     function checkForSpawn(team) {
-        var count = Main.instance.countEntities(team, Fall);
+        var main = Main.instance;
+        var session = main.session;
+        var count = main.countEntities(team, Fall);
 
         if(count == 0) {
-            var garbages = Main.instance.session.garbages;
+            var garbages = session.garbages;
 
             if(garbages[team] > 0) {
                 var row_offset = 0;
@@ -91,6 +93,15 @@ class GameSystem extends ecs.System {
                 }
             } else {
                 spawnRandomDuo(team);
+                var n = session.currentMatchCounts[team] - 1;
+
+                if(n >= 0) {
+                    session.preGarbages[team] += n*(n*n + 1);
+                    var total = session.preGarbages[team];
+                    session.preGarbages[team] = 0;
+                    session.garbages[1 - team] += total;
+                    session.currentMatchCounts[team] = 0;
+                }
             }
         }
     }

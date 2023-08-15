@@ -4,7 +4,9 @@ class Session {
     public var grids:Array<Array<Array<ecs.Entity>>>;
     public var width = 6;
     public var height = 12;
-    public var garbages = [10, 10];
+    public var garbages = [0, 0];
+    public var currentMatchCounts = [0, 0];
+    public var preGarbages = [0, 0];
 
     public var colors = ["red", "green", "blue"];
 
@@ -36,6 +38,8 @@ class Session {
 
     public function isFree(team, col, row) {
         if(isValid(col, row)) {
+            if(row >=12) { return true; }
+
             return grids[team][row][col] == null;
         }
 
