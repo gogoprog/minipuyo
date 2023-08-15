@@ -10,6 +10,8 @@ class Session {
 
     public var colors = ["red", "green", "blue"];
 
+    public var gameStarted = false;
+
     public function new() {
         grids = [];
 

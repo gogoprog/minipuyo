@@ -9,18 +9,20 @@ class GameSystem extends ecs.System {
         var e = Factory.createPuyoDisplay("red");
         var p = e.get(math.Transform).position;
         p.x = 27;
-        p.y = 7;
+        p.y = 12;
         engine.addEntity(e);
         var e = Factory.createPuyoDisplay("blue");
         var p = e.get(math.Transform).position;
         p.x = 27;
-        p.y = 11;
+        p.y = 16;
         engine.addEntity(e);
     }
 
     override public function update(dt) {
-        checkForSpawn(0);
-        checkForSpawn(1);
+        if(Main.instance.session.gameStarted) {
+            checkForSpawn(0);
+            checkForSpawn(1);
+        }
     }
 
     function createRandomPuyo(team) {

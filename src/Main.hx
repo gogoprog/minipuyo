@@ -45,6 +45,7 @@ class Main {
         engine.addSystem(new game.PuyoSystem(), 6);
         engine.addSystem(new game.CheckSystem(), 10);
         engine.addSystem(new game.PuyoDisplaySystem(), 100);
+        engine.addSystem(new game.HudSystem(), 101);
     }
 
     function loadImages() {
