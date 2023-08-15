@@ -13,8 +13,16 @@ class FallSystem extends ecs.System {
 
     override public function update(dt:Float) {
         for(team in 0...2) {
-            if(Main.instance.countEntities(team, Control) == 0) {
+            var control_count = Main.instance.countEntities(team, Control);
+            var garbage_count = Main.instance.countEntities(team, Garbage);
+            var fall_count = Main.instance.countEntities(team, Fall);
+
+            if(control_count == 0) {
                 timeLefts[team] -= 3 * dt;
+
+                if(garbage_count == fall_count) {
+                    timeLefts[team] -= 4 * dt;
+                }
             }
 
             timeLefts[team] -= dt;

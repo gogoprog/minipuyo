@@ -7,6 +7,7 @@ class Puyo {
     public var desiredRow:Int;
     public var desiredCol:Int;
     public var color = "red";
+    public var garbage = false;
 
     public function new() {
     }

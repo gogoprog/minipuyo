@@ -4,6 +4,7 @@ class Session {
     public var grids:Array<Array<Array<ecs.Entity>>>;
     public var width = 6;
     public var height = 12;
+    public var garbages = [10, 10];
 
     public var colors = ["red", "green", "blue"];
 

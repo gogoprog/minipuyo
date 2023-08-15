@@ -33,6 +33,16 @@ class GameSystem extends ecs.System {
         return e;
     }
 
+    function createGarbagePuyo(team) {
+        var color = "grey";
+        var e = Factory.createPuyo(color);
+        e.add(new Fall());
+        e.add(new Garbage());
+        e.get(Puyo).team = team;
+        e.get(Puyo).garbage = true;
+        return e;
+    }
+
     function spawnRandomDuo(team) {
         var e = createRandomPuyo(team);
         engine.addEntity(e);
@@ -46,7 +56,42 @@ class GameSystem extends ecs.System {
         var count = Main.instance.countEntities(team, Fall);
 
         if(count == 0) {
-            spawnRandomDuo(team);
+            var garbages = Main.instance.session.garbages;
+
+            if(garbages[team] > 0) {
+                var row_offset = 0;
+
+                while(garbages[team] >= 6) {
+                    for(i in 0...6) {
+                        var e = createGarbagePuyo(team);
+                        e.get(Puyo).col = i;
+                        e.get(Puyo).row += row_offset;
+                        engine.addEntity(e);
+                    }
+
+                    garbages[team] -= 6;
+                    row_offset++;
+                }
+
+                var coldone = new Map<Int, Bool>();
+
+                while(garbages[team] > 0) {
+                    var r = Std.random(6);
+
+                    while(coldone[r]) {
+                        r = Std.random(6);
+                    }
+
+                    coldone[r] = true;
+                    var e = createGarbagePuyo(team);
+                    e.get(Puyo).col = r;
+                    e.get(Puyo).row += row_offset;
+                    engine.addEntity(e);
+                    garbages[team] -= 1;
+                }
+            } else {
+                spawnRandomDuo(team);
+            }
         }
     }
 }

@@ -11,7 +11,6 @@ class PuyoDisplaySystem extends ecs.System {
         var puyod = e.get(PuyoDisplay);
         var puyo = e.get(Puyo);
         var pos = e.get(math.Transform).position;
-
         puyod.time -= dt;
 
         if(puyod.time < 0) {
@@ -26,7 +25,7 @@ class PuyoDisplaySystem extends ecs.System {
             ctx.fillRect(pos.x + 1, pos.y, 2, 4);
             ctx.fillRect(pos.x, pos.y+1, 4, 2);
 
-            if(puyo != null && e.get(Fall) == null) {
+            if(puyo != null && e.get(Fall) == null && !puyo.garbage) {
                 var session = Main.instance.session;
 
                 if(session.getColor(puyo.team, puyo.col - 1, puyo.row) == puyo.color) {
@@ -47,10 +46,16 @@ class PuyoDisplaySystem extends ecs.System {
             }
 
             //eye
-            ctx.fillStyle = puyod.eyeFlip ? "#55a" : "#fff";
-            ctx.fillRect(pos.x+1, pos.y+1, 1, 1);
-            ctx.fillStyle = !puyod.eyeFlip ? "#55a" : "#fff";
-            ctx.fillRect(pos.x+2, pos.y+1, 1, 1);
+
+            if(puyo == null  || !puyo.garbage) {
+                ctx.fillStyle = puyod.eyeFlip ? "#55a" : "#fff";
+                ctx.fillRect(pos.x+1, pos.y+1, 1, 1);
+                ctx.fillStyle = !puyod.eyeFlip ? "#55a" : "#fff";
+                ctx.fillRect(pos.x+2, pos.y+1, 1, 1);
+            } else {
+                ctx.fillStyle = "#000";
+                ctx.fillRect(pos.x+1, pos.y+1, 1, 1);
+            }
         }
     }
 }

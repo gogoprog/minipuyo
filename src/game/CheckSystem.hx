@@ -3,6 +3,8 @@ package game;
 typedef Match = Map<ecs.Entity, Bool>;
 
 class CheckSystem extends ecs.System {
+    static var requiredMatchCount = 2;
+
     public function new() {
         super();
     }
@@ -33,11 +35,15 @@ class CheckSystem extends ecs.System {
                             }
 
                             if(match == null) {
-                                match = new Match();
-                                matches.push(match);
-                                var current = e.get(Puyo).getPosition();
-                                match[e] = true;
-                                visit(team, match, current, e.get(Puyo).color);
+                                var puyo = e.get(Puyo);
+
+                                if(!puyo.garbage) {
+                                    match = new Match();
+                                    matches.push(match);
+                                    var current = puyo.getPosition();
+                                    match[e] = true;
+                                    visit(team, match, current, puyo.color);
+                                }
                             }
                         }
                     }
@@ -48,7 +54,7 @@ class CheckSystem extends ecs.System {
                 for(match in matches) {
                     var size = Lambda.count(match);
 
-                    if(size >= 4) {
+                    if(size >= requiredMatchCount) {
                         did_match = true;
 
                         for(e in match.keys()) {

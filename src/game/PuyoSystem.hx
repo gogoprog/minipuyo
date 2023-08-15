@@ -16,5 +16,9 @@ class PuyoSystem extends ecs.System {
         if(puyo.team == 1) {
             pos.x += 32 + 4;
         }
+
+        if(puyo.row >= 12) {
+            pos.y = -64;
+        }
     }
 }
