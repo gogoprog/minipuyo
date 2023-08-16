@@ -3,7 +3,7 @@ package game;
 typedef Match = Map<ecs.Entity, Bool>;
 
 class CheckSystem extends ecs.System {
-    static var requiredMatchCount = 2;
+    static var requiredMatchCount = 4;
 
     public function new() {
         super();
