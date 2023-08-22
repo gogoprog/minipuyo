@@ -4,6 +4,7 @@ class Session {
     public var grids:Array<Array<Array<ecs.Entity>>>;
     public var width = 6;
     public var height = 12;
+    public var puyoCount = [0, 0];
     public var garbages = [0, 0];
     public var currentMatchCounts = [0, 0];
     public var preGarbages = [0, 0];
@@ -68,5 +69,10 @@ class Session {
         }
 
         return null;
+    }
+
+    public function getRandomColor(seed) {
+        var r = Main.instance.getRandomInt(seed, colors.length);
+        return colors[r];
     }
 }

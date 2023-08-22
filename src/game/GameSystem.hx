@@ -6,12 +6,16 @@ class GameSystem extends ecs.System {
     }
 
     override public function onResume() {
-        var e = Factory.createPuyoDisplay("red");
+        var main = Main.instance;
+        var session = main.session;
+        var color = Main.instance.session.getRandomColor(session.puyoCount[0] + 1);
+        var e = Factory.createPuyoDisplay(color);
         var p = e.get(math.Transform).position;
         p.x = 27;
         p.y = 12;
         engine.addEntity(e);
-        var e = Factory.createPuyoDisplay("blue");
+        var color = Main.instance.session.getRandomColor(session.puyoCount[0]);
+        var e = Factory.createPuyoDisplay(color);
         var p = e.get(math.Transform).position;
         p.x = 27;
         p.y = 16;
@@ -25,9 +29,8 @@ class GameSystem extends ecs.System {
         }
     }
 
-    function createRandomPuyo(team) {
-        var r = Std.random(Main.instance.session.colors.length);
-        var color = Main.instance.session.colors[r];
+    function createRandomPuyo(team, seed) {
+        var color = Main.instance.session.getRandomColor(seed);
         var e = Factory.createPuyo(color);
         e.add(new Fall());
         e.add(new Control());
@@ -46,9 +49,12 @@ class GameSystem extends ecs.System {
     }
 
     function spawnRandomDuo(team) {
-        var e = createRandomPuyo(team);
+        var session = Main.instance.session;
+        var e = createRandomPuyo(team, session.puyoCount[team]);
+        session.puyoCount[team]++;
         engine.addEntity(e);
-        var e = createRandomPuyo(team);
+        var e = createRandomPuyo(team, session.puyoCount[team]);
+        session.puyoCount[team]++;
         engine.addEntity(e);
         e.get(Puyo).row++;
         e.get(Control).second = true;

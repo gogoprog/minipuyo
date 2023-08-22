@@ -96,4 +96,9 @@ class Main {
 
         return result;
     }
+
+    public function getRandomInt(seed, max):Int {
+        var x = (Math.sin(seed++) + 1) * 9999;
+        return Std.int(x) % max;
+    }
 }
