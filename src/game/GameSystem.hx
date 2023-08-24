@@ -1,6 +1,8 @@
 package game;
 
 class GameSystem extends ecs.System {
+    var previewPuyos = [];
+
     public function new() {
         super();
     }
@@ -8,18 +10,37 @@ class GameSystem extends ecs.System {
     override public function onResume() {
         var main = Main.instance;
         var session = main.session;
-        var color = Main.instance.session.getRandomColor(session.puyoCount[0] + 1);
-        var e = Factory.createPuyoDisplay(color);
-        var p = e.get(math.Transform).position;
-        p.x = 27;
-        p.y = 12;
-        engine.addEntity(e);
-        var color = Main.instance.session.getRandomColor(session.puyoCount[0]);
-        var e = Factory.createPuyoDisplay(color);
-        var p = e.get(math.Transform).position;
-        p.x = 27;
-        p.y = 16;
-        engine.addEntity(e);
+        var color = "red";
+        {
+            var e = Factory.createPuyoDisplay(color);
+            var p = e.get(math.Transform).position;
+            p.x = 27;
+            p.y = 12;
+            engine.addEntity(e);
+            previewPuyos[0] = [e];
+            var e = Factory.createPuyoDisplay(color);
+            var p = e.get(math.Transform).position;
+            p.x = 27;
+            p.y = 16;
+            engine.addEntity(e);
+            previewPuyos[0].push(e);
+        }
+        {
+            var e = Factory.createPuyoDisplay(color);
+            var p = e.get(math.Transform).position;
+            p.x = 33;
+            p.y = 12;
+            engine.addEntity(e);
+            previewPuyos[1] = [e];
+            var e = Factory.createPuyoDisplay(color);
+            var p = e.get(math.Transform).position;
+            p.x = 33;
+            p.y = 16;
+            engine.addEntity(e);
+            previewPuyos[1].push(e);
+        }
+        updatePreview(0);
+        updatePreview(1);
     }
 
     override public function update(dt) {
@@ -101,6 +122,7 @@ class GameSystem extends ecs.System {
                 }
             } else {
                 spawnRandomDuo(team);
+                updatePreview(team);
                 var n = session.currentMatchCounts[team] - 1;
 
                 if(n >= 0) {
@@ -112,5 +134,13 @@ class GameSystem extends ecs.System {
                 }
             }
         }
+    }
+
+    function updatePreview(team) {
+        var session = Main.instance.session;
+        var color = session.getRandomColor(session.puyoCount[team]);
+        previewPuyos[team][0].get(PuyoDisplay).color = color;
+        var color = session.getRandomColor(session.puyoCount[team] + 1);
+        previewPuyos[team][1].get(PuyoDisplay).color = color;
     }
 }

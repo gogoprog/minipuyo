@@ -54,8 +54,8 @@ class HudSystem extends ecs.System {
             ctx.fillText("Enter", 18, 39);
         }
 
-        if(main.isJustPressed("Enter")) {
+        // if(main.isJustPressed("Enter")) {
             session.gameStarted = true;
-        }
+        // }
     }
 }
