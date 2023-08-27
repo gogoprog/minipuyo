@@ -72,15 +72,12 @@ class CheckSystem extends ecs.System {
                 }
 
                 if(did_match) {
-                    var es = engine.getMatchingEntities(Puyo);
+                    var es = main.getEntities(team, Puyo);
 
                     for(e in es) {
                         var puyo = e.get(Puyo);
-
-                        if(puyo.team == team) {
-                            main.session.setGrid(team, puyo.col, puyo.row, null);
-                            e.add(new Fall());
-                        }
+                        main.session.setGrid(team, puyo.col, puyo.row, null);
+                        e.add(new Fall());
                     }
 
                     main.session.preGarbages[team] += garbage_points;

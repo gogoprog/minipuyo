@@ -12,5 +12,6 @@ retail:
 zip: retail
 	rm -f retail.zip
 	cd retail && zip -r ../retail.zip ./*
+	stat retail.zip | grep Size
 
 .PHONY: build retail

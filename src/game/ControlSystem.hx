@@ -16,31 +16,27 @@ class ControlSystem extends ecs.System {
         moveRequesteds = [false, false];
         rotateRequesteds = [false, false];
         super.update(dt);
+        var main = Main.instance;
 
         for(team in 0...2) {
-            if(Main.instance.countEntities(team, Control) == 2) {
-                var es = engine.getMatchingEntities(Control);
+            if(main.countEntities(team, Control) == 2) {
+                var es = main.getEntities(team, Control);
                 var all_valid = true;
 
                 for(e in es) {
                     var puyo = e.get(Puyo);
 
-                    if(puyo.team == team) {
-                        if(puyo.desiredCol == null || puyo.desiredRow == null || !Main.instance.session.isFree(puyo.team, puyo.desiredCol, puyo.desiredRow)) {
-                            all_valid = false;
-                            break;
-                        }
+                    if(puyo.desiredCol == null || puyo.desiredRow == null || !Main.instance.session.isFree(puyo.team, puyo.desiredCol, puyo.desiredRow)) {
+                        all_valid = false;
+                        break;
                     }
                 }
 
                 if(all_valid) {
                     for(e in es) {
                         var puyo = e.get(Puyo);
-
-                        if(puyo.team == team) {
-                            puyo.col = puyo.desiredCol;
-                            puyo.row = puyo.desiredRow;
-                        }
+                        puyo.col = puyo.desiredCol;
+                        puyo.row = puyo.desiredRow;
                     }
                 }
             }
@@ -59,11 +55,11 @@ class ControlSystem extends ecs.System {
 
         if(!moveRequesteds[puyo.team]) {
             if(control.second) {
-                var es = engine.getMatchingEntities(Control);
+                var es = main.getEntities(puyo.team, Control);
                 var other:Puyo = null;
 
                 for(e2 in es) {
-                    if(!e2.get(Control).second && e2.get(Puyo).team == puyo.team) {
+                    if(!e2.get(Control).second) {
                         other = e2.get(Puyo);
                     }
                 }

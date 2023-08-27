@@ -12,10 +12,12 @@ class FallSystem extends ecs.System {
     }
 
     override public function update(dt:Float) {
+        var main = Main.instance;
+
         for(team in 0...2) {
-            var control_count = Main.instance.countEntities(team, Control);
-            var garbage_count = Main.instance.countEntities(team, Garbage);
-            var fall_count = Main.instance.countEntities(team, Fall);
+            var control_count = main.countEntities(team, Control);
+            var garbage_count = main.countEntities(team, Garbage);
+            var fall_count = main.countEntities(team, Fall);
 
             if(control_count == 0) {
                 timeLefts[team] -= 3 * dt;
@@ -31,22 +33,18 @@ class FallSystem extends ecs.System {
             while(timeLefts[team] <= 0) {
                 timeLefts[team] += 1.0;
                 fallings[team] = true;
-                var es = engine.getMatchingEntities(Fall);
+                var es = main.getEntities(team, Fall);
 
                 for(e in es) {
                     var puyo = e.get(Puyo);
 
-                    if(puyo.team == team) {
-                        if(!Main.instance.session.isFree(puyo.team, puyo.col, puyo.row-1)) {
-                            Main.instance.session.setGrid(puyo.team, puyo.col, puyo.row, e);
-                            e.remove(Fall);
-                            var es = engine.getMatchingEntities(Control);
+                    if(!main.session.isFree(puyo.team, puyo.col, puyo.row-1)) {
+                        main.session.setGrid(puyo.team, puyo.col, puyo.row, e);
+                        e.remove(Fall);
+                        var es = main.getEntities(team, Control);
 
-                            for(e in es) {
-                                if(e.get(Puyo).team == team) {
-                                    e.remove(Control);
-                                }
-                            }
+                        for(e in es) {
+                            e.remove(Control);
                         }
                     }
                 }
@@ -59,19 +57,18 @@ class FallSystem extends ecs.System {
     override public function updateSingle(dt:Float, e:ecs.Entity) {
         var puyo = e.get(Puyo);
         var team = puyo.team;
+        var main = Main.instance;
 
         if(fallings[team]) {
-            if(Main.instance.session.isFree(puyo.team, puyo.col, puyo.row-1)) {
+            if(main.session.isFree(puyo.team, puyo.col, puyo.row-1)) {
                 puyo.row--;
             } else {
-                Main.instance.session.setGrid(puyo.team, puyo.col, puyo.row, e);
+                main.session.setGrid(puyo.team, puyo.col, puyo.row, e);
                 e.remove(Fall);
-                var es = engine.getMatchingEntities(Control);
+                var es = main.getEntities(team, Control);
 
                 for(e in es) {
-                    if(e.get(Puyo).team == team) {
-                        e.remove(Control);
-                    }
+                    e.remove(Control);
                 }
             }
         }

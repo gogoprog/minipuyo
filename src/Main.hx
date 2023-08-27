@@ -97,6 +97,19 @@ class Main {
         return result;
     }
 
+    public function getEntities(team, type) {
+        var es = engine.getMatchingEntities(type);
+        var result = [];
+
+        for(e in es) {
+            if(e.get(game.Puyo).team == team) {
+                result.push(e);
+            }
+        }
+
+        return result;
+    }
+
     public function getRandomInt(seed, max):Int {
         var x = (Math.sin(seed++) + 1) * 9999;
         return Std.int(x) % max;
