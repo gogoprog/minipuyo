@@ -1,5 +1,14 @@
 package game;
 
+class ControlRequest {
+    public function new() {}
+    public var left:Float = -1.0;
+    public var right:Float = -1.0;
+    public var down:Float = -1.0;
+    public var rotate:Float = -1.0;
+    public var rotate2:Float = -1.0;
+}
+
 class Session {
     public var grids:Array<Array<Array<ecs.Entity>>>;
     public var width = 6;
@@ -12,6 +21,8 @@ class Session {
     public var colors = ["red", "green", "blue"];
 
     public var gameStarted = false;
+
+    public var controlRequests:Array<ControlRequest> = [new ControlRequest(), new ControlRequest()];
 
     public function new() {
         grids = [];

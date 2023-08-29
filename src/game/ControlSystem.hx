@@ -48,8 +48,10 @@ class ControlSystem extends ecs.System {
         var control = e.get(Control);
         var offset_col = 0;
         var offset_row = 0;
-        control.time += dt;
         var main = Main.instance;
+        var control_request = main.session.controlRequests[puyo.team];
+        control.time += dt;
+        control.time2 += dt;
         puyo.desiredRow = puyo.row;
         puyo.desiredCol = puyo.col;
 
@@ -64,8 +66,8 @@ class ControlSystem extends ecs.System {
                     }
                 }
 
-                var o_pressed = main.isJustPressed('o');
-                var p_pressed = main.isJustPressed('p');
+                var o_pressed = control_request.rotate == 0;
+                var p_pressed = control_request.rotate2 == 0;
 
                 if(o_pressed || p_pressed) {
                     var dir = o_pressed ? 1 : -1;
@@ -79,12 +81,12 @@ class ControlSystem extends ecs.System {
                             puyo.desiredCol = puyo.col + dir;
                         }
                     } else {
-                        puyo.desiredCol= other.col;
+                        puyo.desiredCol = other.col;
 
                         if(other.col == puyo.col + 1) {
-                            puyo.desiredRow= puyo.row + dir;
+                            puyo.desiredRow = puyo.row + dir;
                         } else {
-                            puyo.desiredRow= puyo.row - dir;
+                            puyo.desiredRow = puyo.row - dir;
                         }
                     }
 
@@ -95,32 +97,33 @@ class ControlSystem extends ecs.System {
         }
 
         if(!rotateRequesteds[puyo.team]) {
-            if(main.isJustPressed('ArrowLeft') || main.isJustPressed('a')) {
+            if(control_request.left >= 0) {
+                if(control_request.left == 0) {
+                    control.time = 1.0;
+                }
+
                 offset_col -= 1;
-                control.time = 1;
-            } else if(main.isJustPressed('ArrowRight') || main.isJustPressed('d')) {
-                offset_col += 1;
-                control.time = 1;
-            } else if(main.isPressed('ArrowLeft') || main.isJustPressed('a')) {
-                offset_col -= 1;
-            } else if(main.isPressed('ArrowRight') || main.isJustPressed('d')) {
+            } else if(control_request.right >= 0) {
+                if(control_request.right == 0) {
+                    control.time = 1.0;
+                }
                 offset_col += 1;
             }
 
-            if(main.isJustPressed('ArrowDown') || main.isJustPressed('s')) {
-                offset_row -= 1;
-                control.time2 = 1;
-            } else if(main.isPressed('ArrowDown') || main.isJustPressed('s')) {
+            if(control_request.down >= 0) {
+                if(control_request.down == 0) {
+                    control.time2 = 1.0;
+                }
                 offset_row -= 1;
             }
 
-            if(control.time >= 0.2) {
+            if(control.time >= 0.1) {
                 puyo.desiredCol = puyo.col + offset_col;
                 moveRequesteds[puyo.team] = true;
                 control.time = 0.0;
             }
 
-            if(control.time2 >= 0.2) {
+            if(control.time2 >= 0.1) {
                 puyo.desiredRow = puyo.row + offset_row;
                 moveRequesteds[puyo.team] = true;
                 control.time2 = 0.0;
