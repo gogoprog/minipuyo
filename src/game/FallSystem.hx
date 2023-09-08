@@ -27,7 +27,7 @@ class FallSystem extends ecs.System {
                 }
             }
 
-            timeLefts[team] -= dt;
+            timeLefts[team] -= dt * 10;
             fallings[team] = false;
 
             while(timeLefts[team] <= 0) {
@@ -39,13 +39,7 @@ class FallSystem extends ecs.System {
                     var puyo = e.get(Puyo);
 
                     if(!main.session.isFree(puyo.team, puyo.col, puyo.row-1)) {
-                        main.session.setGrid(puyo.team, puyo.col, puyo.row, e);
-                        e.remove(Fall);
-                        var es = main.getEntities(team, Control);
-
-                        for(e in es) {
-                            e.remove(Control);
-                        }
+                        land(puyo, team, e);
                     }
                 }
             }
@@ -63,14 +57,23 @@ class FallSystem extends ecs.System {
             if(main.session.isFree(puyo.team, puyo.col, puyo.row-1)) {
                 puyo.row--;
             } else {
-                main.session.setGrid(puyo.team, puyo.col, puyo.row, e);
-                e.remove(Fall);
-                var es = main.getEntities(team, Control);
-
-                for(e in es) {
-                    e.remove(Control);
-                }
+                land(puyo, team, e);
             }
+        }
+    }
+
+    private function land(puyo, team, e) {
+        var main = Main.instance;
+        main.session.setGrid(puyo.team, puyo.col, puyo.row, e);
+        e.remove(Fall);
+        var es = main.getEntities(team, Control);
+
+        for(e in es) {
+            e.remove(Control);
+        }
+
+        if(puyo.row == 12) {
+            main.win(1 - team);
         }
     }
 }

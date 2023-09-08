@@ -116,4 +116,23 @@ class Main {
         var x = (Math.sin(seed++) + 1) * 9999;
         return Std.int(x) % max;
     }
+
+    public function win(team) {
+        trace(session.playerNames[team] + " has won!");
+        engine.suspendSystem(game.GameSystem);
+        engine.suspendSystem(game.FallSystem);
+        session.winner = team;
+        session.gameFinished = true;
+    }
+
+    public function start() {
+        engine.resumeSystem(game.GameSystem);
+        engine.resumeSystem(game.FallSystem);
+        session = new game.Session();
+        var es = engine.getMatchingEntities(game.Puyo);
+
+        for(e in es) {
+            engine.removeEntity(e);
+        }
+    }
 }

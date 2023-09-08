@@ -57,6 +57,8 @@ class ControlSystem extends ecs.System {
 
         if(!moveRequesteds[puyo.team]) {
             if(control.second) {
+                var o_pressed = control_request.rotate == 0;
+                var p_pressed = control_request.rotate2 == 0;
                 var es = main.getEntities(puyo.team, Control);
                 var other:Puyo = null;
 
@@ -65,9 +67,6 @@ class ControlSystem extends ecs.System {
                         other = e2.get(Puyo);
                     }
                 }
-
-                var o_pressed = control_request.rotate == 0;
-                var p_pressed = control_request.rotate2 == 0;
 
                 if(o_pressed || p_pressed) {
                     var dir = o_pressed ? 1 : -1;
@@ -107,6 +106,7 @@ class ControlSystem extends ecs.System {
                 if(control_request.right == 0) {
                     control.time = 1.0;
                 }
+
                 offset_col += 1;
             }
 
@@ -114,16 +114,17 @@ class ControlSystem extends ecs.System {
                 if(control_request.down == 0) {
                     control.time2 = 1.0;
                 }
+
                 offset_row -= 1;
             }
 
-            if(control.time >= 0.1) {
+            if(offset_col != 0 && control.time >= 0.1) {
                 puyo.desiredCol = puyo.col + offset_col;
                 moveRequesteds[puyo.team] = true;
                 control.time = 0.0;
             }
 
-            if(control.time2 >= 0.1) {
+            if(offset_row != 0 && control.time2 >= 0.1) {
                 puyo.desiredRow = puyo.row + offset_row;
                 moveRequesteds[puyo.team] = true;
                 control.time2 = 0.0;

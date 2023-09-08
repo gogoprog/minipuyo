@@ -17,10 +17,13 @@ class Session {
     public var garbages = [0, 0];
     public var currentMatchCounts = [0, 0];
     public var preGarbages = [0, 0];
+    public var playerNames = ["You", "Computer"];
 
     public var colors = ["red", "green", "blue"];
 
     public var gameStarted = false;
+    public var gameFinished = false;
+    public var winner:Int;
 
     public var controlRequests:Array<ControlRequest> = [new ControlRequest(), new ControlRequest()];
 
