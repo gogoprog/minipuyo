@@ -20,14 +20,14 @@ class FallSystem extends ecs.System {
             var fall_count = main.countEntities(team, Fall);
 
             if(control_count == 0) {
-                timeLefts[team] -= 3 * dt;
+                timeLefts[team] -= 4 * dt;
 
                 if(garbage_count == fall_count) {
-                    timeLefts[team] -= 4 * dt;
+                    timeLefts[team] -= 12 * dt;
                 }
             }
 
-            timeLefts[team] -= dt * 10;
+            timeLefts[team] -= dt;
             fallings[team] = false;
 
             while(timeLefts[team] <= 0) {
