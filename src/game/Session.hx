@@ -14,12 +14,12 @@ class Session {
     public var width = 6;
     public var height = 12;
     public var puyoCount = [0, 0];
-    public var garbages = [0, 0];
+    public var garbages = [10, 0];
     public var currentMatchCounts = [0, 0];
     public var preGarbages = [0, 0];
     public var playerNames = ["You", "Computer"];
 
-    public var colors = ["red", "green", "blue"];
+    public var colors = ["#CC8497", "#00C892", "#7F87F1"];
 
     public var gameStarted = false;
     public var gameFinished = false;

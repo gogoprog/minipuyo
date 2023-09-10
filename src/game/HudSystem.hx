@@ -29,13 +29,13 @@ class HudSystem extends ecs.System {
         var main = Main.instance;
         var session = main.session;
         var ctx = main.ctx;
-        ctx.fillStyle = "#500";
-        var offset = team == 0 ? 3 : 39;
+        ctx.fillStyle = "#AF8D8B";
+        var offset = team == 0 ? 2 : 38;
         var count = session.garbages[team];
 
         for(i in 0...count) {
             ctx.fillRect(offset, 6, 1, 3);
-            offset += 2;
+            offset += 1;
         }
     }
 
@@ -48,7 +48,7 @@ class HudSystem extends ecs.System {
         ctx.fillStyle = "#57e";
         ctx.font = "12px pixel";
         ctx.textBaseline = "top";
-        ctx.fillText("MiniPuyo!", 4, 10);
+        ctx.fillText("MiniPuyo!", 7, 10);
         var draw = (Std.int(time) % 2) == 0;
 
         if(draw) {

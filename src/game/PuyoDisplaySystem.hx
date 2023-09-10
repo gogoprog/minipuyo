@@ -53,7 +53,7 @@ class PuyoDisplaySystem extends ecs.System {
                 ctx.fillStyle = !puyod.eyeFlip ? "#55a" : "#fff";
                 ctx.fillRect(pos.x+2, pos.y+1, 1, 1);
             } else {
-                ctx.fillStyle = "#000";
+                ctx.fillStyle = "#444";
                 ctx.fillRect(pos.x+1, pos.y+1, 1, 1);
             }
         }
