@@ -35,6 +35,11 @@ class ControlSystem extends ecs.System {
                 if(all_valid) {
                     for(e in es) {
                         var puyo = e.get(Puyo);
+
+                        if(puyo.col != puyo.desiredCol || puyo.row != puyo.desiredRow) {
+                            main.sfx(0.2, .05, 1040, .05, .02, .04, 0, 1.97, 0, 0, -224, .05, .02, .1, 1, .5, .01, .43, 0, .01);
+                        }
+
                         puyo.col = puyo.desiredCol;
                         puyo.row = puyo.desiredRow;
                     }

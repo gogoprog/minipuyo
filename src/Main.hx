@@ -123,6 +123,7 @@ class Main {
         engine.suspendSystem(game.FallSystem);
         session.winner = team;
         session.gameFinished = true;
+        sfx(1.58, 0, 261.6256, .05, .25, .48, 1, .36, .1, 0, -50, .01, .01, .2, -1, -0.1, .03, .3, .12, .23);
     }
 
     public function start() {
@@ -134,5 +135,10 @@ class Main {
         for(e in es) {
             engine.removeEntity(e);
         }
+    }
+
+    public function sfx(...args:Float) {
+        var func:Dynamic = js.Syntax.code("zzfx");
+        func.apply(null, args);
     }
 }

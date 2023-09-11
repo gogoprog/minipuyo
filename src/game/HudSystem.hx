@@ -59,6 +59,7 @@ class HudSystem extends ecs.System {
 
         if(main.isJustPressed("Enter")) {
             session.gameStarted = true;
+            main.sfx(0.5, .05, 543, .02, .28, .41, 2, 1.94, -1.3, 0, 316, .03, .05, 0, 0, 0, 0, .67, .17, .08);
         }
     }
 

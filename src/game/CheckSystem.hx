@@ -81,6 +81,7 @@ class CheckSystem extends ecs.System {
                     }
 
                     main.session.preGarbages[team] += garbage_points;
+                    main.sfx(1.2, .9, 130, .09, .27, .45, 1, 1.34, -8.4, 0, 0, 0, .13, 0, 0, 0, 0, .98, .23, .33);
                 }
             }
         }

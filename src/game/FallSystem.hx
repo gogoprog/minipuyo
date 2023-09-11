@@ -60,6 +60,7 @@ class FallSystem extends ecs.System {
 
     private function land(puyo, team, e) {
         var main = Main.instance;
+        main.sfx(0.3, .05, 410, 0, .01, .13, 4, 2.65, -0.1, 5.1, -50, -0.02, -0.01, 1.3, 3, .1, .04, .32, .03, .02);
         main.session.setGrid(puyo.team, puyo.col, puyo.row, e);
         e.remove(Fall);
         var es = main.getEntities(team, Control);
