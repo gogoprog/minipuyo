@@ -18,6 +18,11 @@ class FallSystem extends ecs.System {
             var control_count = main.countEntities(team, Control);
             var garbage_count = main.countEntities(team, Garbage);
             var fall_count = main.countEntities(team, Fall);
+            var blink_count = main.countEntities(team, Blink);
+
+            if(blink_count > 0) {
+                continue;
+            }
 
             if(control_count == 0) {
                 timeLefts[team] -= 12 * dt;

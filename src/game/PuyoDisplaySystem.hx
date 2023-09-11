@@ -7,6 +7,13 @@ class PuyoDisplaySystem extends ecs.System {
         addComponentClass(PuyoDisplay);
     }
 
+    override public function update(dt:Float) {
+        super.update(dt);
+        var main = Main.instance;
+        var ctx = Main.instance.ctx;
+        ctx.globalAlpha = 1.0;
+    }
+
     override public function updateSingle(dt:Float, e:ecs.Entity) {
         var puyod = e.get(PuyoDisplay);
         var puyo = e.get(Puyo);
@@ -21,6 +28,7 @@ class PuyoDisplaySystem extends ecs.System {
         {
             var ctx = Main.instance.ctx;
             //body
+            ctx.globalAlpha = puyod.alpha;
             ctx.fillStyle = puyod.color;
             ctx.fillRect(pos.x + 1, pos.y, 2, 4);
             ctx.fillRect(pos.x, pos.y+1, 4, 2);

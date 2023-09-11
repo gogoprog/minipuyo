@@ -8,6 +8,7 @@ class Puyo {
     public var desiredCol:Int;
     public var color = "red";
     public var garbage = false;
+    public var matching = false;
 
     public function new() {
     }

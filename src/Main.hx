@@ -46,6 +46,7 @@ class Main {
         engine.addSystem(new game.ControlSystem(), 5);
         engine.addSystem(new game.PuyoSystem(), 6);
         engine.addSystem(new game.CheckSystem(), 10);
+        engine.addSystem(new game.BlinkSystem(), 20);
         engine.addSystem(new game.PuyoDisplaySystem(), 100);
         engine.addSystem(new game.HudSystem(), 101);
     }

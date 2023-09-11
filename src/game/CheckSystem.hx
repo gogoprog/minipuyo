@@ -3,7 +3,9 @@ package game;
 typedef Match = Map<ecs.Entity, Bool>;
 
 class CheckSystem extends ecs.System {
-    static var requiredMatchCount = 4;
+    static var requiredMatchCount = 2;
+
+    var matchings = [false, false];
 
     public function new() {
         super();
@@ -13,12 +15,13 @@ class CheckSystem extends ecs.System {
     }
 
     override public function update(dt) {
+        var main = Main.instance;
+        var session = main.session;
+
         for(team in 0...2) {
             var count = Main.instance.countEntities(team, Fall);
 
             if(count == 0) {
-                var main = Main.instance;
-                var session = main.session;
                 var matches = new Array<Match>();
 
                 for(x in 0...session.width) {
@@ -37,7 +40,7 @@ class CheckSystem extends ecs.System {
                             if(match == null) {
                                 var puyo = e.get(Puyo);
 
-                                if(!puyo.garbage) {
+                                if(!puyo.garbage && !puyo.matching) {
                                     match = new Match();
                                     matches.push(match);
                                     var current = puyo.getPosition();
@@ -66,12 +69,22 @@ class CheckSystem extends ecs.System {
                         did_match = true;
 
                         for(e in match.keys()) {
-                            destroyPuyo(e);
+                            preDestroyPuyo(e);
                         }
                     }
                 }
 
                 if(did_match) {
+                    matchings[team] = true;
+                    main.session.preGarbages[team] += garbage_points;
+                    main.sfx(1.2, .9, 130, .09, .27, .45, 1, 1.34, -8.4, 0, 0, 0, .13, 0, 0, 0, 0, .98, .23, .33);
+                }
+            }
+
+            if(matchings[team]) {
+                var count = main.countEntities(team, Blink);
+
+                if(count == 0) {
                     var es = main.getEntities(team, Puyo);
 
                     for(e in es) {
@@ -80,14 +93,14 @@ class CheckSystem extends ecs.System {
                         e.add(new Fall());
                     }
 
-                    main.session.preGarbages[team] += garbage_points;
-                    main.sfx(1.2, .9, 130, .09, .27, .45, 1, 1.34, -8.4, 0, 0, 0, .13, 0, 0, 0, 0, .98, .23, .33);
+                    matchings[team] = false;
                 }
             }
         }
     }
 
     static var deltas:Array<math.Point> = [ [0, 1], [0, -1], [1, 0], [-1, 0]];
+
     function visit(team:Int, match:Match, position:math.Point, color) {
         for(delta in deltas) {
             var new_pos = position + delta;
@@ -104,24 +117,10 @@ class CheckSystem extends ecs.System {
         }
     }
 
-    function destroyPuyo(e) {
+    function preDestroyPuyo(e:ecs.Entity) {
         var puyo = e.get(Puyo);
         var team = puyo.team;
-        Main.instance.session.setGrid(team, puyo.col, puyo.row, null);
-        engine.removeEntity(e);
-
-        for(delta in deltas) {
-            var new_pos = puyo.getPosition() + delta;
-            var new_col = Std.int(new_pos.x);
-            var new_row = Std.int(new_pos.y);
-            var e = Main.instance.session.getEntity(team, new_col, new_row);
-
-            if(e != null) {
-                if(e.get(Puyo).garbage) {
-                    Main.instance.session.setGrid(team, new_col, new_row, null);
-                    engine.removeEntity(e);
-                }
-            }
-        }
+        e.add(new Blink());
+        puyo.matching = true;
     }
 }

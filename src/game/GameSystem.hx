@@ -85,8 +85,9 @@ class GameSystem extends ecs.System {
         var main = Main.instance;
         var session = main.session;
         var count = main.countEntities(team, Fall);
+        var blink_count = main.countEntities(team, Blink);
 
-        if(count == 0) {
+        if(count == 0 && blink_count == 0) {
             var garbages = session.garbages;
 
             if(garbages[team] > 0) {
