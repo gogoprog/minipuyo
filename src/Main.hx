@@ -56,7 +56,7 @@ class Main {
 
     function loadImage(name) {
         var image = new js.html.Image();
-        image.src = "../data/" + name + ".png";
+        image.src = "./data/" + name + ".png";
         images[name] = image;
     }
 

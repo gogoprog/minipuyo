@@ -6,7 +6,7 @@ retail:
 	rm -rf retail
 	mkdir -p retail/build
 	haxe build.hxml
-	rsync -avzm . ./retail -progress --exclude='**/phaser.js' --include='deps/**/*.css' --include='deps/**/*.js' --include='data/**' --include='src/*.css' --exclude='haxe-babylon' --exclude='examples' --exclude='test' --include='src/*.html' --include='*/' --include='index.html' --exclude='*'
+	rsync -avzm . ./retail -progress --exclude='**/phaser.js' --include='deps/**/*.css' --include='data/**' --include='*/' --include='index.html' --exclude='*'
 	terser --compress --mangle -- build/main.js > retail/build/main.js
 
 zip: retail

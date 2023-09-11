@@ -7,5 +7,7 @@ Entry for JS13K 2023
 # External credits
 
  * Wall : https://opengameart.org/content/2d-castle-platformer-starter-assets
+ * zzfx : https://killedbyapixel.github.io/ZzFX/
+
 
 
