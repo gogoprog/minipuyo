@@ -27,7 +27,6 @@ class Engine {
             var type = Type.getClassName(Type.getClass(system));
 
             if(type == type_to_suspend) {
-                systems.remove(system);
                 suspended.push(system);
                 system.onSuspend();
                 break;
@@ -43,7 +42,6 @@ class Engine {
 
             if(type == type_to_resume) {
                 suspended.remove(system);
-                systems.push(system);
                 system.onResume();
                 break;
             }
@@ -69,6 +67,10 @@ class Engine {
         var entities_copy = entities.slice(0);
 
         for(system in systems_copy) {
+            if(suspended.contains(system)) {
+                continue;
+            }
+
             system.entities = [];
 
             for(entity in entities_copy) {
