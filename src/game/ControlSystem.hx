@@ -84,6 +84,14 @@ class ControlSystem extends ecs.System {
                         } else {
                             puyo.desiredCol = puyo.col + dir;
                         }
+
+                        if(puyo.desiredCol < 0) {
+                            puyo.desiredCol++;
+                            other.desiredCol++;
+                        } else if(puyo.desiredCol >= main.session.width) {
+                            puyo.desiredCol--;
+                            other.desiredCol--;
+                        }
                     } else {
                         puyo.desiredCol = other.col;
 
