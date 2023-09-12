@@ -3,7 +3,7 @@ package game;
 typedef Match = Map<ecs.Entity, Bool>;
 
 class CheckSystem extends ecs.System {
-    static var requiredMatchCount = 2;
+    static var requiredMatchCount = 4;
 
     var matchings = [false, false];
 
@@ -60,10 +60,10 @@ class CheckSystem extends ecs.System {
 
                     if(size >= requiredMatchCount) {
                         main.session.currentMatchCounts[team]++;
-                        var z = size - requiredMatchCount - 1;
+                        var z = size - requiredMatchCount;
 
                         if(z >= 0) {
-                            garbage_points += Std.int((z*z + z + 1) / ((z-1)*(z-1) *(z+1)));
+                            garbage_points += Std.int(Math.ceil((z * z) / 2));
                         }
 
                         did_match = true;

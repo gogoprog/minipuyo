@@ -19,11 +19,13 @@ class Session {
     public var preGarbages = [0, 0];
     public var playerNames = ["You", "Computer"];
 
-    public var colors = ["#CC8497", "#00C892", "#7F87F1"];
+    public var colors = ["#CC8497", "#00C892", "#7F87F1", "#EEE8A9"];
 
     public var gameStarted = false;
     public var gameFinished = false;
     public var winner:Int;
+
+    public var rseed:Int;
 
     public var controlRequests:Array<ControlRequest> = [new ControlRequest(), new ControlRequest()];
 
@@ -39,6 +41,8 @@ class Session {
 
             grids[g] = grid;
         }
+
+        rseed = Std.random(1000);
     }
 
     public function isValid(col, row) {
@@ -86,7 +90,7 @@ class Session {
     }
 
     public function getRandomColor(seed) {
-        var r = Main.instance.getRandomInt(seed, colors.length);
+        var r = Main.instance.getRandomInt(rseed + seed, colors.length);
         return colors[r];
     }
 }

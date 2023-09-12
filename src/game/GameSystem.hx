@@ -124,7 +124,7 @@ class GameSystem extends ecs.System {
             } else {
                 spawnRandomDuo(team);
                 updatePreview(team);
-                var n = session.currentMatchCounts[team] - 1;
+                var n = session.currentMatchCounts[team];
 
                 if(n >= 0) {
                     session.preGarbages[team] += n*(n*n + 1);
