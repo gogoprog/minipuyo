@@ -8,6 +8,8 @@ A super puyo puyo remake with a fancy medieval wall as a background.
 
 # How to play
 
+Play [here](https://js13kgames.com/entries/minipuyo) !
+
 * Moving : Arrows or WASD
 * Rotating : O or P
 * Validating : Enter
